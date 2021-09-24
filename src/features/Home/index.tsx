@@ -7,6 +7,7 @@ import ProductDetails from "./components/ProductDetails";
 import Categories from "./components/Categories";
 import { IoMdHand } from "react-icons/io";
 import { productDetails } from './typesList'
+import Header from '../../features/Header'
 
 const Home = () => {
   const [productList, setProductList] = useState<Array<productDetails>>(productListDetails)
@@ -42,8 +43,18 @@ const Home = () => {
     }
   }
 
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e?.target?.value) {
+      const name = e.target.value.toLowerCase()
+      setProductSortedList(productList.filter(item => item?.name?.toLowerCase().includes(name) || item?.category?.toLowerCase().includes(name)))
+    } else {
+      setProductSortedList(productList)
+    }
+  }
+
   return (
     <div>
+      <Header handleSearch={handleSearch} />
       <Categories categoriesList={categoriesList} handlerCategory={handlerCategory} />
       <Container>
         <div className="row">
